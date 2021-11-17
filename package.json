@@ -1,0 +1,80 @@
+{
+  "name": "tipbot",
+  "version": "1.0.0",
+  "main": "bot.ts",
+  "engines": {
+    "node": "16.6.1"
+  },
+  "scripts": {
+    "start": "ts-node DiscordBot/bot.ts",
+
+    "build:web": "rm -rf frontend_dist && parcel build Frontend/index.html --public-url ./ && mv dist frontend_dist",
+    "build:contract": "node Contract/compile.js",
+
+    "deploy:web": "gh-pages -d frontend_dist/",
+    "deploy:contract": "node Contract/deploy.js",
+
+    "web": "npm run build:web && npm run deploy:web",
+    "contract": "npm run build:contract && npm run deploy:contract",
+
+    "shutdown": "heroku ps:scale worker=0 --app collab-tipbot",
+    "startup": "heroku ps:scale worker=1 --app collab-tipbot"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.0",
+    "@babel/preset-react": "^7.16.0",
+    "babel-jest": "^27.3.1",
+    "create-near-app": "^2.0.1",
+    "cross-env": "^7.0.3",
+    "discord.js": "^13.3.1",
+    "dotenv": "^10.0.0",
+    "env-cmd": "^10.1.0",
+    "gh-pages": "^3.2.3",
+    "jest": "^27.3.1",
+    "jest-environment-node": "^27.3.1",
+    "near-api-js": "^0.43.1",
+    "node-fetch": "^3.1.0",
+    "node-json-db": "^1.4.1",
+    "nodemon": "^2.0.15",
+    "parcel-bundler": "^1.12.5",
+    "react-dom": "^17.0.2",
+    "react-dropdown": "^1.9.2",
+    "react-test-renderer": "^17.0.2",
+    "shelljs": "^0.8.4",
+    "ts-node": "^10.4.0",
+    "tsc": "^2.0.3",
+    "typescript": "^4.4.4"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.7",
+    "@types/node-fetch": "^3.0.3"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/src/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/src/__mocks__/fileMock.js"
+    },
+    "setupFiles": [
+      "<rootDir>/src/jest.init.js"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/contract/",
+      "<rootDir>/node_modules/"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
