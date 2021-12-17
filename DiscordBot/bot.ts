@@ -48,4 +48,4 @@ bot.on('messageCreate', (message) => {
     }
 });
 
-bot.login(config.token);
+bot.login(process.env.DISCORD_BOT_TOKEN);
