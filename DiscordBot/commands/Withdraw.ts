@@ -14,7 +14,11 @@ export default class Withdraw extends Command {
     public async run(message: Message, args: Array<string>): Promise<void> {
         let tokenId: string = 'NEAR';
         if (args.length !== 0)
+<<<<<<< HEAD
             tokenId = args[index];
+=======
+            tokenId = args[0];
+>>>>>>> gh-pages
 
         try {
             await Tipbot.getInstance().withdraw(message.author.id, tokenId);

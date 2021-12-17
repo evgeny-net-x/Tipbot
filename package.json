@@ -2,6 +2,7 @@
   "name": "tipbot",
   "version": "1.0.0",
   "main": "bot.ts",
+<<<<<<< HEAD
   "engines": {
     "node": "16.6.1"
   },
@@ -12,6 +13,15 @@
     "build:contract": "node Contract/compile.js",
 
     "deploy:web": "gh-pages -d frontend_dist/",
+=======
+  "scripts": {
+    "start": "ts-node DiscordBot/bot.ts",
+
+    "build:web": "rm -rf frontend_dist && parcel build Frontend/index.html --public-url ./",
+    "build:contract": "node Contract/compile.js",
+
+    "deploy:web": "gh-pages -d dist/",
+>>>>>>> gh-pages
     "deploy:contract": "node Contract/deploy.js",
 
     "web": "npm run build:web && npm run deploy:web",

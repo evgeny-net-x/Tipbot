@@ -23,7 +23,11 @@ export default class GetTips extends Command {
             if (message.guildId !== null)
                 message.channel.send('Check DM!');
         } catch (e) {
+<<<<<<< HEAD
             message.channel.send('Error: ' + (e as Error).message);
+=======
+            message.channel.send('Error: ' + (e as Error).stack);
+>>>>>>> gh-pages
         }
     }
 }

@@ -21,7 +21,11 @@ export default class Deposit extends Command {
             const embed: any = new MessageEmbed()
                 .setColor('#0099ff')
                 .setTitle('Fund deposit')
+<<<<<<< HEAD
                 .setURL('https://evgeny-net-x.github.io/Tipbot');
+=======
+                .setURL('https://evigore.github.io/Tipbot');
+>>>>>>> gh-pages
 
             message.channel.send({embeds: [embed]});
         } catch (e) {

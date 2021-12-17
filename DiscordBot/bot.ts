@@ -4,6 +4,12 @@ import { join } from 'path';
 import { readdir } from 'fs';
 const config = require('./config.json');
 
+<<<<<<< HEAD
+=======
+require('dotenv').config();
+
+
+>>>>>>> gh-pages
 const bot = new Client({ intents: Object.values(Intents.FLAGS) });
 
 function initCommands(): Collection<string, Command> {
@@ -45,4 +51,8 @@ bot.on('messageCreate', (message) => {
     }
 });
 
+<<<<<<< HEAD
 bot.login(config.token);
+=======
+bot.login(process.env.DISCORD_BOT_TOKEN);
+>>>>>>> gh-pages

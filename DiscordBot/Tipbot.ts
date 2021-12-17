@@ -16,7 +16,11 @@ type DbData = Record<string, DbRecord>
 export class Tipbot { // is singleton
     private readonly NEAR_MASTER_ACCOUNT: string = 'net_x.testnet';
     private readonly NETWORK: string = 'testnet';
+<<<<<<< HEAD
     private readonly PREFIX: string = 'DIS'; // Prefix is DIS or TEL
+=======
+    private readonly CATEGORY: string = 'discord';
+>>>>>>> gh-pages
     private readonly TOKENS: Set<string> = new Set(['NEAR']);
 
     private static instance: Tipbot = new Tipbot();
@@ -48,7 +52,11 @@ export class Tipbot { // is singleton
 
         const title: string = 'CollabLand Tipbot';
         const contractId = 'tipbot.' + this.NEAR_MASTER_ACCOUNT;
+<<<<<<< HEAD
         const successUrl = 'https://evgeny-net-x.github.io/Tipbot/';
+=======
+        const successUrl = 'https://evigore.github.io/Tipbot/';
+>>>>>>> gh-pages
 
         const connectUrl: string = `https://wallet.testnet.near.org/login/?title=${title}&public_key=${publicKey}&contract_id=${contractId}&success_url=${successUrl}`;
         return encodeURI(connectUrl);
@@ -60,6 +68,12 @@ export class Tipbot { // is singleton
             return;
 
         const keyPair: any = await this.sessionKeyStore.getKey(this.NETWORK, wallet.accountId);
+<<<<<<< HEAD
+=======
+        if (keyPair === null) // TODO: recheck
+            return;
+
+>>>>>>> gh-pages
         const publicKey: string = keyPair.publicKey.toString();
         const account: NearAPI.Account = await this.getNearAccountByAccountId(wallet.accountId, this.sessionKeyStore);
 
@@ -109,7 +123,18 @@ export class Tipbot { // is singleton
     }
 
     private async getMasterAccount(): Promise<NearAPI.Account> {
+<<<<<<< HEAD
         return await this.getNearAccountByAccountId(this.NEAR_MASTER_ACCOUNT, this.defaultKeyStore);
+=======
+        const keyStore = new NearAPI.keyStores.InMemoryKeyStore();
+        const accountId: any = process.env.NEAR_MASTER_ACCOUNT_PRIVATE_KEY!;
+        const keyPair = NearAPI.KeyPair.fromString(accountId);
+        await keyStore.setKey("testnet", this.NEAR_MASTER_ACCOUNT, keyPair);
+
+        const config = this.getConfigByKeyStore(keyStore);
+        const near: NearAPI.Near = await NearAPI.connect(config);
+        return await near.account(this.NEAR_MASTER_ACCOUNT);
+>>>>>>> gh-pages
     }
 
     public async getTips(userId: string, tokenId: string = 'NEAR'): Promise<string> {
@@ -118,7 +143,16 @@ export class Tipbot { // is singleton
         const contract: any = this.getContract(await this.getMasterAccount());
 
         try {
+<<<<<<< HEAD
             const yocto: string = await contract.get_balance({telegram_account: Number(userId)}); // TODO: telegram to discord
+=======
+            const yocto: string = await contract.get_balance({
+                contact: {
+                    category: this.CATEGORY,
+                    user_id: Number(userId)
+                }
+            });
+>>>>>>> gh-pages
             return NearAPI.utils.format.formatNearAmount(yocto)!;
         } catch (e) {
             this.handleNearError(e);
@@ -164,7 +198,17 @@ export class Tipbot { // is singleton
         const contract: any = this.getContract(account);
 
         try {
+<<<<<<< HEAD
             await contract.transfer_tips_to_deposit({telegram_account: Number(userId), account_id: withdrawAccount});
+=======
+            await contract.transfer_tips_to_deposit({
+                contact: {
+                    category: this.CATEGORY,
+                    user_id: Number(userId)
+                },
+                account_id: withdrawAccount
+            });
+>>>>>>> gh-pages
         } catch (e) {
             this.handleNearError(e);
         }
@@ -193,7 +237,11 @@ export class Tipbot { // is singleton
     }
 
     public async tip(userId: string, recipientIds: Array<string>, amount: string, tokenId: string = 'NEAR'): Promise<Map<string, string>> {
+<<<<<<< HEAD
         //send_tip_to_telegram(TelegramAccountId, amount, Option<TelegramChatId>, Option<TokenAccountId>)  // пересылает с кошелька на телеграм аккаунт (пополняет telegram_tips = map(userId => balance))
+=======
+        //send_tip_to_contact(Contact, amount, Option<TelegramChatId>, Option<TokenAccountId>)  // пересылает с кошелька на телеграм аккаунт (пополняет telegram_tips = map(userId => balance))
+>>>>>>> gh-pages
 
         tokenId = this.checkTokenIdExistence(tokenId);
         const contract: any = await this.getContractOfUser(userId);
@@ -202,8 +250,16 @@ export class Tipbot { // is singleton
         let failedIds: Map<string, string> = new Map<string, string>();
         for (const id of recipientIds) {
             try {
+<<<<<<< HEAD
                 await contract.send_tip_to_telegram({
                     telegram_account: Number(id),
+=======
+                await contract.send_tip_to_contact({
+                    contact: {
+                        category: this.CATEGORY,
+                        user_id: Number(id)
+                    },
+>>>>>>> gh-pages
                     amount: amount
                 });
             } catch (e) {
@@ -244,7 +300,11 @@ export class Tipbot { // is singleton
     private getContract(account: NearAPI.Account): NearAPI.Contract {
         const contract = new NearAPI.Contract(account, config.contract_name, {
             viewMethods: ['get_deposit', 'get_balance'],
+<<<<<<< HEAD
             changeMethods: ['deposit', 'withdraw', 'transfer_tips_to_deposit', 'send_tip_to_telegram']
+=======
+            changeMethods: ['deposit', 'withdraw', 'transfer_tips_to_deposit', 'send_tip_to_contact']
+>>>>>>> gh-pages
         });
 
         return contract;
@@ -255,7 +315,10 @@ export class Tipbot { // is singleton
             return null;
 
         let record: DbRecord = this.db.getObject<DbRecord>('/' + userId)!;
+<<<<<<< HEAD
         console.log(record.confirmed);
+=======
+>>>>>>> gh-pages
         if (!record.confirmed) {
             const account: NearAPI.Account = await this.getNearAccountByAccountId(record.accountId, this.sessionKeyStore);
             const keys: Array<any> = await account.getAccessKeys();
